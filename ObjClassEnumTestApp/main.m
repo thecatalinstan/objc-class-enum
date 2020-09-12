@@ -29,12 +29,34 @@
 
 @dynamic red, green, blue;
 
++ (void)initialize {
+    assert(class_createEnum(self));
+}
+
 @end
 
 int main(int argc, const char * argv[]) {
-    if(0 != class_createEnum(Color.class)) {
-        perror("class_createEnum: ");
+    
+    NSMapTable<NSString *, Color *> *map = [NSMapTable strongToWeakObjectsMapTable];
+    
+    unsigned int count;
+    objc_property_t *properties;
+    if(!(properties = class_copyEnumPropertyList(Color.class, &count))) {
         return EXIT_FAILURE;
     }
+    
+    for (unsigned int i = 0; i < count; i++) {
+        objc_property_t property = properties[i];
+        const char *name = property_getName(property);
+        Color *value;
+        [map setObject:value forKey:@(name)];
+    }
+    
+    NSLog(@"%@", map);
+    
+    
+    
+        
+    
     return EXIT_SUCCESS;
 }

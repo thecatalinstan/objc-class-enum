@@ -11,12 +11,12 @@
 
 #include <objc/runtime.h>
 
-#if defined(__cplusplus)
-#define OBJC_CLASS_ENUM_EXPORT extern "C"
-#else
-#define OBJC_CLASS_ENUM_EXPORT extern
-#endif
+OBJC_EXPORT BOOL
+class_createEnum(Class _Nullable cls)
+    OBJC_AVAILABLE(10.5, 2.0, 9.0, 1.0, 2.0);
 
-OBJC_CLASS_ENUM_EXPORT int class_createEnum(Class _Nonnull cls); 
+OBJC_EXPORT objc_property_t _Nonnull * _Nullable
+class_copyEnumPropertyList(Class _Nullable cls, unsigned int * _Nullable outCount)
+    OBJC_AVAILABLE(10.5, 2.0, 9.0, 1.0, 2.0);
 
 #endif /* enum_h */

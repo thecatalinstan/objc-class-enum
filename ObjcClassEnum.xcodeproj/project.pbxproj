@@ -10,7 +10,7 @@
 		AD7ECA79250C172600A30B17 /* classenum.h in Headers */ = {isa = PBXBuildFile; fileRef = AD7ECA77250C172600A30B17 /* classenum.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD7ECA7A250C172600A30B17 /* classenum.c in Sources */ = {isa = PBXBuildFile; fileRef = AD7ECA78250C172600A30B17 /* classenum.c */; settings = {COMPILER_FLAGS = "-fvisibility=hidden"; }; };
 		AD7ECA81250C187700A30B17 /* libobjc.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AD7ECA80250C187700A30B17 /* libobjc.A.dylib */; };
-		AD7ECA85250C1B2B00A30B17 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = AD7ECA84250C1B2B00A30B17 /* main.c */; };
+		AD7ECA85250C1B2B00A30B17 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = AD7ECA84250C1B2B00A30B17 /* main.c */; settings = {COMPILER_FLAGS = "-fvisibility=hidden"; }; };
 		ADE14A72250C1FD000061132 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE14A71250C1FD000061132 /* main.m */; };
 		ADE14A76250C204A00061132 /* libObjcClassEnum.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AD7ECA70250C16CC00A30B17 /* libObjcClassEnum.dylib */; };
 /* End PBXBuildFile section */
