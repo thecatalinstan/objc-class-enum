@@ -12,11 +12,15 @@
 #include <objc/runtime.h>
 
 OBJC_EXPORT BOOL
-class_createEnum(Class _Nullable cls)
-    OBJC_AVAILABLE(10.5, 2.0, 9.0, 1.0, 2.0);
+class_createEnum(Class _Nullable cls);
 
 OBJC_EXPORT objc_property_t _Nonnull * _Nullable
-class_copyEnumPropertyList(Class _Nullable cls, unsigned int * _Nullable outCount)
-    OBJC_AVAILABLE(10.5, 2.0, 9.0, 1.0, 2.0);
+class_copyEnumPropertyList(Class _Nullable cls, unsigned int * _Nullable outCount);
+
+OBJC_EXPORT objc_property_t _Nonnull * _Nullable
+class_copyEnumPropertyList(Class _Nullable cls, unsigned int * _Nullable outCount);
+
+OBJC_EXPORT id _Nullable
+class_getEnumValue(Class _Nullable cls, objc_property_t _Nullable property);
 
 #endif /* enum_h */

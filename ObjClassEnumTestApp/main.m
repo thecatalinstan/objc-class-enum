@@ -36,19 +36,19 @@
 @end
 
 int main(int argc, const char * argv[]) {
-    
+    Class cls = Color.class;
     NSMapTable<NSString *, Color *> *map = [NSMapTable strongToWeakObjectsMapTable];
     
     unsigned int count;
     objc_property_t *properties;
-    if(!(properties = class_copyEnumPropertyList(Color.class, &count))) {
+    if(!(properties = class_copyEnumPropertyList(cls, &count))) {
         return EXIT_FAILURE;
     }
     
     for (unsigned int i = 0; i < count; i++) {
         objc_property_t property = properties[i];
         const char *name = property_getName(property);
-        Color *value;
+        Color *value = class_getEnumValue(cls, property);
         [map setObject:value forKey:@(name)];
     }
     

@@ -37,8 +37,8 @@ class_copyEnumPropertyList(Class cls, unsigned int *outCount) {
     unsigned int property_count = 0, enum_count = 0;
     objc_property_t *properties = NULL, *enum_properties = NULL;
     char *cls_type = NULL;
-    Class meta;
     
+    Class meta;
     if (!(meta = objc_getMetaClass(class_getName(cls)))) {
         goto done;
     }
@@ -73,14 +73,14 @@ class_copyEnumPropertyList(Class cls, unsigned int *outCount) {
         enum_count++;
         continue;
         
-        printf(" - raw attributes:\n");
-        unsigned int attribute_count = 0, j = 0;
-        objc_property_attribute_t *attributes = property_copyAttributeList(property, &attribute_count);
-        for(j = 0; j < attribute_count; j++) {
-            objc_property_attribute_t attr = attributes[j];
-            printf("    *** %s: %s\n", attr.name, attr.value);
-        }
-        free(attributes);
+//        printf(" - raw attributes:\n");
+//        unsigned int attribute_count = 0, j = 0;
+//        objc_property_attribute_t *attributes = property_copyAttributeList(property, &attribute_count);
+//        for(j = 0; j < attribute_count; j++) {
+//            objc_property_attribute_t attr = attributes[j];
+//            printf("    *** %s: %s\n", attr.name, attr.value);
+//        }
+//        free(attributes);
     }
     
 done:
@@ -111,4 +111,34 @@ done:
     }
     
     return enum_properties;
+}
+
+id
+class_getEnumValue(Class cls, objc_property_t property) {
+    Class meta;
+    if (!(meta = objc_getMetaClass(class_getName(cls)))) {
+        return NULL;
+    }
+    
+    id instance;
+    if (!(instance = class_createInstance(cls, 0))) {
+        return NULL;
+    }
+    
+    SEL getter_sel = sel_registerName(property_getName(property));
+    if(!sel_isMapped(getter_sel)) {
+        return NULL;
+    }
+    
+    Method getter;
+    if (!(getter = class_getClassMethod(meta, getter_sel))) {
+       return NULL;
+    }
+
+    typeof(instance)(*getter_implementation)(id, SEL);
+    if (!(getter_implementation = (typeof(getter_implementation))method_getImplementation(getter))) {
+        return NULL;
+    }
+    
+    return getter_implementation((id)meta, getter_sel);
 }
