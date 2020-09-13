@@ -1,5 +1,5 @@
 //
-//  enum.c
+//  classenum.c
 //  ObjcClassEnum
 //
 //  Created by Cătălin Stan on 11/09/2020.
@@ -18,7 +18,7 @@ typedef struct {
     objc_property_t _Nonnull property;
     objc_AssociationPolicy policy;
     const void * _Nonnull key;
-    bool readonly;
+    BOOL readonly;
 } enum_member_t;
 
 static const void *enum_members_key = (void *)&enum_members_key;
@@ -45,16 +45,16 @@ enum_get(id _Nonnull self, SEL _Nonnull _cmd);
 static void
 enum_set(id _Nonnull self, SEL _Nonnull _cmd, id _Nullable value);
 
-bool
+BOOL
 class_createEnum(Class cls) {
     if (!class_isMetaClass(cls) && !(cls = objc_getMetaClass(class_getName(cls)))) {
-        return false;
+        return NO;
     }
     
     unsigned int count = 0;
     objc_property_t *properties;
     if(!(properties = class_copyEnumPropertyList_Meta(cls, &count))) {
-        return false;
+        return NO;
     }
     
     enum_member_t *members = calloc(count, sizeof(enum_member_t));
@@ -84,7 +84,7 @@ class_createEnum(Class cls) {
     class_setEnumLayout(cls, members, count);
     
     free(properties);
-    return true;
+    return YES;
 }
 
 objc_property_t *
@@ -173,15 +173,11 @@ class_getEnumValue(Class cls, objc_property_t property) {
     }
     
     if (!class_isMetaClass(cls) && !(cls = objc_getMetaClass(class_getName(cls)))) {
-        return false;
-    }
-    
-    SEL getter_sel = sel_registerName(property_getName(property));
-    if(!sel_isMapped(getter_sel)) {
         return NULL;
     }
     
     Method getter;
+    SEL getter_sel = sel_registerName(property_getName(property));
     if (!(getter = class_getClassMethod(cls, getter_sel))) {
        return NULL;
     }

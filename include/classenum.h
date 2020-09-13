@@ -11,7 +11,7 @@
 
 #include <objc/runtime.h>
 
-OBJC_EXPORT bool
+OBJC_EXPORT BOOL
 class_createEnum(Class _Nullable cls);
 
 OBJC_EXPORT objc_property_t _Nonnull * _Nullable
