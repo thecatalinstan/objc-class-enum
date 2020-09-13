@@ -11,11 +11,8 @@
 
 #include <objc/runtime.h>
 
-OBJC_EXPORT BOOL
+OBJC_EXPORT bool
 class_createEnum(Class _Nullable cls);
-
-OBJC_EXPORT objc_property_t _Nonnull * _Nullable
-class_copyEnumPropertyList(Class _Nullable cls, unsigned int * _Nullable outCount);
 
 OBJC_EXPORT objc_property_t _Nonnull * _Nullable
 class_copyEnumPropertyList(Class _Nullable cls, unsigned int * _Nullable outCount);

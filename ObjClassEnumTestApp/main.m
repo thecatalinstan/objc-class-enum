@@ -13,8 +13,10 @@
 @interface Color : NSObject
 
 @property (class, readonly) Color *red;
-@property (class, readonly, strong) Color *green;
+@property (class, readonly, weak) Color *green;
 @property (class, readonly, nonatomic) Color *blue;
+@property (class, readonly, copy) Color *yellow;
+@property (class, readonly, copy, nonatomic) Color *purple;
 @property (class, readonly) NSHashTable<Color *> *allValues;
 
 @property (readonly) NSString *rawValue;
@@ -22,22 +24,30 @@
 @end
 
 @interface Color ()
-@property (strong, class) Color *red;
+@property (class, readwrite) Color *red;
+@property (class, readwrite, weak) Color *green;
+@property (class, readwrite, nonatomic) Color *blue;
 @end
+
+static Color *greenColor;
 
 @implementation Color
 
-@dynamic red, green, blue;
+@dynamic red, green, blue, yellow, purple;
 
 + (void)initialize {
     assert(class_createEnum(self));
+    self.red = [Color new];
+    self.green = (greenColor = [Color new]);
+    self.blue = [Color new];
 }
 
 @end
 
 int main(int argc, const char * argv[]) {
+    
     Class cls = Color.class;
-    NSMapTable<NSString *, Color *> *map = [NSMapTable strongToWeakObjectsMapTable];
+    NSMapTable<NSString *, Color *> *map = [NSMapTable weakToWeakObjectsMapTable];
     
     unsigned int count;
     objc_property_t *properties;
@@ -47,9 +57,8 @@ int main(int argc, const char * argv[]) {
     
     for (unsigned int i = 0; i < count; i++) {
         objc_property_t property = properties[i];
-        const char *name = property_getName(property);
-        Color *value = class_getEnumValue(cls, property);
-        [map setObject:value forKey:@(name)];
+        [map setObject:class_getEnumValue(cls, property) ?: NSNull.null
+                forKey:@(property_getName(property))];
     }
     
     NSLog(@"%@", map);
