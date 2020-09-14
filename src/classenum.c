@@ -79,17 +79,20 @@ class_createEnum(Class cls) {
     
     for (unsigned int i = 0; i < count; i++) {
         objc_property_t property = properties[i];
-        members[i].property = property;
-        members[i].policy = property_getAssociationPolicy(property);
-        members[i].readonly = !!property_copyAttributeValue(property, "R");
-        members[i].key = (void *)&(members[i]);
         
-        const char *getter = property_getName(members[i].property);
+        enum_member_t member = {
+            .property = property,
+            .policy = property_getAssociationPolicy(property),
+            .readonly = !!property_copyAttributeValue(property, "R"),
+            .key = (void *)&(members[i]),
+        };
+        
+        const char *getter = property_getName(member.property);
         if(!class_addMethod(cls, sel_registerName(getter), (IMP)enum_get, "@@:")) {
             continue;
         }
         
-        if (!members[i].readonly) {
+        if (!member.readonly) {
             const size_t size = strlen(getter) + 5;
             char setter[size];
             snprintf(setter, size,  "set%c%s:", toupper(getter[0]), getter + 1);
@@ -97,6 +100,8 @@ class_createEnum(Class cls) {
                 continue;
             }
         }
+        
+        members[i] = member;
     }
     
     // Save the enum layout
@@ -176,8 +181,8 @@ done:
         properties = NULL;
     }
             
-    if(enum_count && enum_properties && enum_count < property_count && !(enum_properties = realloc(enum_properties, enum_count * sizeof(objc_property_t)))) {
-        enum_count = 0;
+    if(enum_count && enum_properties && enum_count < property_count) {
+        enum_properties = realloc(enum_properties, enum_count * sizeof(objc_property_t));
     }
     
     if (enum_count == 0) {
@@ -196,11 +201,6 @@ done:
 
 id
 class_getEnumValue(Class cls, objc_property_t property) {
-    id instance;
-    if (!(instance = class_createInstance(cls, 0))) {
-        return NULL;
-    }
-    
     if (!class_isMetaClass(cls) && !(cls = objc_getMetaClass(class_getName(cls)))) {
         return NULL;
     }
@@ -211,7 +211,7 @@ class_getEnumValue(Class cls, objc_property_t property) {
        return NULL;
     }
 
-    typeof(instance)(*getter_implementation)(id, SEL);
+    id(*getter_implementation)(id, SEL);
     if (!(getter_implementation = (typeof(getter_implementation))method_getImplementation(getter))) {
         return NULL;
     }
@@ -291,8 +291,8 @@ class_getEnumLayout(Class cls, unsigned int *outCount) {
 
 void
 class_setEnumLayout(Class cls, enum_member_t *members, unsigned int count) {
-    int *members_count;
-    if (!(members_count = (int *)objc_getAssociatedObject((id)cls, enum_members_count_key))) {
+    unsigned int *members_count;
+    if (!(members_count = (unsigned int *)objc_getAssociatedObject((id)cls, enum_members_count_key))) {
         members_count = calloc(1, sizeof(unsigned int));
         objc_setAssociatedObject((id)cls, enum_members_count_key, (id)members_count, OBJC_ASSOCIATION_ASSIGN);
     }
