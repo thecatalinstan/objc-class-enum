@@ -24,9 +24,11 @@
 @end
 
 @interface Color ()
+
 @property (class, readwrite) Color *red;
 @property (class, readwrite, weak) Color *green;
 @property (class, readwrite, nonatomic) Color *blue;
+
 @end
 
 static Color *greenColor;
@@ -62,10 +64,6 @@ int main(int argc, const char * argv[]) {
     }
     
     NSLog(@"%@", map);
-    
-    
-    
-        
-    
+
     return EXIT_SUCCESS;
 }

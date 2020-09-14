@@ -14,6 +14,12 @@
 #include <string.h>
 #include <ctype.h>
 
+static unsigned int const all_members_types_count = 1;
+static char * const all_members_types[all_members_types_count] = {"@\"NSHashTable\""};
+
+static unsigned int const all_members_names_count = 3;
+static char * const all_members_names[all_members_names_count] = {"all", "allValues", "allMembers"};
+
 typedef struct {
     objc_property_t _Nonnull property;
     objc_AssociationPolicy policy;
@@ -27,8 +33,8 @@ static const void *enum_members_count_key = (void *)&enum_members_count_key;
 static inline objc_property_t _Nonnull * _Nullable
 class_copyEnumPropertyList_Meta(Class _Nullable cls, unsigned int * _Nullable outCount, objc_property_t * _Nullable outAllMembersProperty);
 
-static inline enum_member_t * _Nullable
-enum_getMember(Class _Nonnull cls, const char * _Nonnull name);
+static inline BOOL
+property_isAllMembersProperty(const char * _Nonnull cls_name, const char * _Nonnull name, const char * _Nonnull type);
 
 static inline objc_AssociationPolicy
 property_getAssociationPolicy(objc_property_t _Nonnull property);
@@ -38,6 +44,12 @@ class_getEnumLayout(Class _Nonnull cls, unsigned int * _Nullable outCount);
 
 static inline void
 class_setEnumLayout(Class _Nonnull cls, enum_member_t *members, unsigned int count);
+
+static inline enum_member_t * _Nullable
+enum_getMember(Class _Nonnull cls, const char * _Nonnull name);
+
+static inline BOOL
+enum_setupAllMembersProperty(objc_property_t _Nonnull property);
 
 static id _Nullable
 enum_get(id _Nonnull self, SEL _Nonnull _cmd);
@@ -52,8 +64,14 @@ class_createEnum(Class cls) {
     }
     
     unsigned int count = 0;
-    objc_property_t *properties;
-    if(!(properties = class_copyEnumPropertyList_Meta(cls, &count, NULL))) {
+    objc_property_t *properties, all_members_property;
+    if(!(properties = class_copyEnumPropertyList_Meta(cls, &count, &all_members_property))) {
+        return NO;
+    }
+    
+    if (all_members_property && !enum_setupAllMembersProperty(all_members_property)) {
+        free(properties);
+        all_members_property = NULL;
         return NO;
     }
     
@@ -81,6 +99,7 @@ class_createEnum(Class cls) {
         }
     }
     
+    // Save the enum layout
     class_setEnumLayout(cls, members, count);
     
     free(properties);
@@ -103,10 +122,8 @@ class_copyEnumPropertyList_Meta(Class cls, unsigned int *outCount, objc_property
     unsigned int property_count = 0, enum_count = 0;
     objc_property_t *properties = NULL, *enum_properties = NULL;
     char *cls_type = NULL;
-    
-    objc_property_t all_members_property = {0};
-    char **all_members_property_names = NULL, *all_members_property_type = NULL;
-    
+    const char *cls_name = class_getName(cls);
+        
     if (!(properties = class_copyPropertyList(cls, &property_count))) {
         goto done;
     }
@@ -114,21 +131,12 @@ class_copyEnumPropertyList_Meta(Class cls, unsigned int *outCount, objc_property
     if (!(enum_properties = calloc(property_count, sizeof(objc_property_t)))) {
         goto done;
     }
-            
-    if(-1 == asprintf(&cls_type, "@\"%s\"", class_getName(cls))) {
+    
+    
+    if(-1 == asprintf(&cls_type, "@\"%s\"", cls_name)) {
         goto done;
     }
     
-    if (outAllMembersProperty) {
-        const char *clsName = class_getName(cls);
-        const size_t size = strlen(clsName) + 5;
-        char all_clsName_s[size];
-        snprintf(all_clsName_s, size, "all%ss", clsName);
-        char *names[4] = {all_clsName_s, "allMemebers", "allValues", "all" };
-        all_members_property_names = names;
-        all_members_property_type = "@\"NSHashTable\"";
-    }
-
     for (unsigned int i = 0; i < property_count; i++) {
         objc_property_t property = properties[i];
         
@@ -144,24 +152,11 @@ class_copyEnumPropertyList_Meta(Class cls, unsigned int *outCount, objc_property
         }
         
         if(strcmp(type, cls_type)) {
-            if (!all_members_property_type || !all_members_property_names) {
-                continue;
-            }
-            
-            if (strcmp(type, all_members_property_type)) {
-                continue;
-            }
-           
-            
             const char *name = property_getName(property);
-            for (unsigned int i = 0; i < 4; i++) {
-                if (!strcmp(name, all_members_property_names[i])) {
-                    all_members_property = property;
-                    break;
-                }
+            if (outAllMembersProperty && property_isAllMembersProperty(cls_name, name, type)) {
+                *outAllMembersProperty = property;
             }
-            
-            
+            continue;
         }
         
         enum_properties[enum_count] = property;
@@ -226,6 +221,38 @@ class_getEnumValue(Class cls, objc_property_t property) {
 
 #pragma mark - Internals
 
+BOOL
+property_isAllMembersProperty(const char *cls_name, const char *name, const char *type) {
+    // Check the type against the predefined list
+    BOOL typeCheck = NO;
+    for (unsigned int i = 0; i < all_members_types_count; i++) {
+        if (!strcmp(type, all_members_types[i])) {
+            typeCheck = YES;
+            break;
+        }
+    }
+    if (!typeCheck) {
+        return NO;
+    }
+    
+    // Check the name agains the predefined list
+    for (unsigned int i = 0; i < all_members_names_count; i++) {
+        if (!strcmp(name, all_members_names[i])) {
+            return YES;
+        }
+    }
+    
+    // Check for "all[ClassName]s"
+    const size_t size = strlen(cls_name) + 5;
+    char allClsNames[size];
+    snprintf(allClsNames, size, "all%ss", cls_name);
+    if (strcmp(name, allClsNames)) {
+        return NO;
+    }
+    
+    return YES;
+}
+
 objc_AssociationPolicy
 property_getAssociationPolicy(objc_property_t property) {
     objc_AssociationPolicy policy;
@@ -247,24 +274,7 @@ property_getAssociationPolicy(objc_property_t property) {
     return policy;
 }
 
-enum_member_t *
-enum_getMember(Class cls, const char *name) {
-    unsigned int count;
-    enum_member_t *members;
-    if (!(members = class_getEnumLayout(cls, &count))) {
-        return NULL;
-    }
-        
-    enum_member_t *member = NULL;
-    for (unsigned int i = 0; i < count; i++) {
-        const char *prop_name = property_getName(members[i].property);
-        if (!strcmp(prop_name, name)) {
-            member = (members + i);
-            break;
-        }
-    }
-    return member;
-}
+#pragma mark - Enum Layout
 
 enum_member_t *
 class_getEnumLayout(Class cls, unsigned int *outCount) {
@@ -288,6 +298,30 @@ class_setEnumLayout(Class cls, enum_member_t *members, unsigned int count) {
     }
     *members_count = count;
     objc_setAssociatedObject((id)cls, enum_members_key, (id)members, OBJC_ASSOCIATION_ASSIGN);
+}
+
+enum_member_t *
+enum_getMember(Class cls, const char *name) {
+    unsigned int count;
+    enum_member_t *members;
+    if (!(members = class_getEnumLayout(cls, &count))) {
+        return NULL;
+    }
+        
+    enum_member_t *member = NULL;
+    for (unsigned int i = 0; i < count; i++) {
+        const char *prop_name = property_getName(members[i].property);
+        if (!strcmp(prop_name, name)) {
+            member = (members + i);
+            break;
+        }
+    }
+    return member;
+}
+
+BOOL
+enum_setupAllMembersProperty(objc_property_t property) {
+    return YES;
 }
 
 #pragma mark - Getter/Setter
