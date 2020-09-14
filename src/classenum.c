@@ -25,7 +25,7 @@ static const void *enum_members_key = (void *)&enum_members_key;
 static const void *enum_members_count_key = (void *)&enum_members_count_key;
 
 static inline objc_property_t _Nonnull * _Nullable
-class_copyEnumPropertyList_Meta(Class _Nullable cls, unsigned int * _Nullable outCount);
+class_copyEnumPropertyList_Meta(Class _Nullable cls, unsigned int * _Nullable outCount, objc_property_t * _Nullable outAllMembersProperty);
 
 static inline enum_member_t * _Nullable
 enum_getMember(Class _Nonnull cls, const char * _Nonnull name);
@@ -53,7 +53,7 @@ class_createEnum(Class cls) {
     
     unsigned int count = 0;
     objc_property_t *properties;
-    if(!(properties = class_copyEnumPropertyList_Meta(cls, &count))) {
+    if(!(properties = class_copyEnumPropertyList_Meta(cls, &count, NULL))) {
         return NO;
     }
     
@@ -95,15 +95,18 @@ class_copyEnumPropertyList(Class cls, unsigned int *outCount) {
         }
         return NULL;
     }
-    return class_copyEnumPropertyList_Meta(cls, outCount);
+    return class_copyEnumPropertyList_Meta(cls, outCount, NULL);
 }
 
 objc_property_t *
-class_copyEnumPropertyList_Meta(Class cls, unsigned int *outCount) {
+class_copyEnumPropertyList_Meta(Class cls, unsigned int *outCount, objc_property_t *outAllMembersProperty) {
     unsigned int property_count = 0, enum_count = 0;
     objc_property_t *properties = NULL, *enum_properties = NULL;
     char *cls_type = NULL;
-            
+    
+    objc_property_t all_members_property = {0};
+    char **all_members_property_names = NULL, *all_members_property_type = NULL;
+    
     if (!(properties = class_copyPropertyList(cls, &property_count))) {
         goto done;
     }
@@ -114,6 +117,16 @@ class_copyEnumPropertyList_Meta(Class cls, unsigned int *outCount) {
             
     if(-1 == asprintf(&cls_type, "@\"%s\"", class_getName(cls))) {
         goto done;
+    }
+    
+    if (outAllMembersProperty) {
+        const char *clsName = class_getName(cls);
+        const size_t size = strlen(clsName) + 5;
+        char all_clsName_s[size];
+        snprintf(all_clsName_s, size, "all%ss", clsName);
+        char *names[4] = {all_clsName_s, "allMemebers", "allValues", "all" };
+        all_members_property_names = names;
+        all_members_property_type = "@\"NSHashTable\"";
     }
 
     for (unsigned int i = 0; i < property_count; i++) {
@@ -126,8 +139,29 @@ class_copyEnumPropertyList_Meta(Class cls, unsigned int *outCount) {
         
         // check the type
         const char *type;
-        if(!(type = property_copyAttributeValue(property, "T")) || strcmp(type, cls_type)) {
-            continue;
+        if(!(type = property_copyAttributeValue(property, "T"))) {
+          continue;
+        }
+        
+        if(strcmp(type, cls_type)) {
+            if (!all_members_property_type || !all_members_property_names) {
+                continue;
+            }
+            
+            if (strcmp(type, all_members_property_type)) {
+                continue;
+            }
+           
+            
+            const char *name = property_getName(property);
+            for (unsigned int i = 0; i < 4; i++) {
+                if (!strcmp(name, all_members_property_names[i])) {
+                    all_members_property = property;
+                    break;
+                }
+            }
+            
+            
         }
         
         enum_properties[enum_count] = property;

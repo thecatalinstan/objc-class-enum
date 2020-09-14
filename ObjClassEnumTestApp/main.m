@@ -33,7 +33,7 @@ static Color *greenColor;
 
 @implementation Color
 
-@dynamic red, green, blue, yellow, purple;
+@dynamic red, green, blue, yellow, purple, allValues;
 
 + (void)initialize {
     assert(class_createEnum(self));
