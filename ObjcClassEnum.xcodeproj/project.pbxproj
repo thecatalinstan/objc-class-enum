@@ -164,7 +164,7 @@
 		AD7ECA68250C16CC00A30B17 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1150;
+				LastUpgradeCheck = 1160;
 				ORGANIZATIONNAME = "Cătălin Stan";
 				TargetAttributes = {
 					AD7ECA6F250C16CC00A30B17 = {
@@ -351,6 +351,7 @@
 		ADE14A74250C1FD000061132 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -359,6 +360,7 @@
 		ADE14A75250C1FD000061132 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
