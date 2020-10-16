@@ -47,7 +47,6 @@ static Color *greenColor;
 @end
 
 int main(int argc, const char * argv[]) {
-    
     Class cls = Color.class;
     NSMapTable<NSString *, Color *> *map = [NSMapTable weakToWeakObjectsMapTable];
     
@@ -64,6 +63,7 @@ int main(int argc, const char * argv[]) {
     }
     
     NSLog(@"%@", map);
+    NSLog(@"%@", Color.allValues);
 
     return EXIT_SUCCESS;
 }

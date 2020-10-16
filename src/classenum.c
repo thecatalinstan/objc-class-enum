@@ -14,12 +14,6 @@
 #include <string.h>
 #include <ctype.h>
 
-static unsigned int const all_members_types_count = 1;
-static char * const all_members_types[all_members_types_count] = {"@\"NSHashTable\""};
-
-static unsigned int const all_members_names_count = 3;
-static char * const all_members_names[all_members_names_count] = {"all", "allValues", "allMembers"};
-
 typedef struct {
     objc_property_t _Nonnull property;
     objc_AssociationPolicy policy;
@@ -27,14 +21,19 @@ typedef struct {
     BOOL readonly;
 } enum_member_t;
 
-static const void *enum_members_key = (void *)&enum_members_key;
-static const void *enum_members_count_key = (void *)&enum_members_count_key;
+static void * const enum_members_key = (void *)&enum_members_key;
+static void * const enum_members_count_key = (void *)&enum_members_count_key;
+
+static unsigned int const all_members_types_count = 1;
+static char * const all_members_types[all_members_types_count] = {"@\"NSHashTable\""};
+
+static unsigned int const all_members_names_count = 3;
+static char * const all_members_names[all_members_names_count] = {"all", "allValues", "allMembers"};
+
+static void * const all_members_key = (void *)&all_members_key;
 
 static inline objc_property_t _Nonnull * _Nullable
 class_copyEnumPropertyList_Meta(Class _Nullable cls, unsigned int * _Nullable outCount, objc_property_t * _Nullable outAllMembersProperty);
-
-static inline BOOL
-property_isAllMembersProperty(const char * _Nonnull cls_name, const char * _Nonnull name, const char * _Nonnull type);
 
 static inline objc_AssociationPolicy
 property_getAssociationPolicy(objc_property_t _Nonnull property);
@@ -49,7 +48,16 @@ static inline enum_member_t * _Nullable
 enum_getMember(Class _Nonnull cls, const char * _Nonnull name);
 
 static inline BOOL
-enum_setupAllMembersProperty(objc_property_t _Nonnull property);
+property_isAllMembersProperty(const char * _Nonnull cls_name, const char * _Nonnull name, const char * _Nonnull type);
+
+static inline BOOL
+enum_setupAllMembersProperty(Class _Nonnull cls, objc_property_t _Nonnull property);
+
+static inline void
+enum_addToAllMembers(Class _Nonnull cls, id _Nonnull obj);
+
+static id _Nullable
+enum_getAllMembers(id _Nonnull self, SEL _Nonnull _cmd);
 
 static id _Nullable
 enum_get(id _Nonnull self, SEL _Nonnull _cmd);
@@ -69,7 +77,7 @@ class_createEnum(Class cls) {
         return NO;
     }
     
-    if (all_members_property && !enum_setupAllMembersProperty(all_members_property)) {
+    if (all_members_property && !enum_setupAllMembersProperty(cls, all_members_property)) {
         free(properties);
         all_members_property = NULL;
         return NO;
@@ -221,38 +229,6 @@ class_getEnumValue(Class cls, objc_property_t property) {
 
 #pragma mark - Internals
 
-BOOL
-property_isAllMembersProperty(const char *cls_name, const char *name, const char *type) {
-    // Check the type against the predefined list
-    BOOL typeCheck = NO;
-    for (unsigned int i = 0; i < all_members_types_count; i++) {
-        if (!strcmp(type, all_members_types[i])) {
-            typeCheck = YES;
-            break;
-        }
-    }
-    if (!typeCheck) {
-        return NO;
-    }
-    
-    // Check the name agains the predefined list
-    for (unsigned int i = 0; i < all_members_names_count; i++) {
-        if (!strcmp(name, all_members_names[i])) {
-            return YES;
-        }
-    }
-    
-    // Check for "all[ClassName]s"
-    const size_t size = strlen(cls_name) + 5;
-    char allClsNames[size];
-    snprintf(allClsNames, size, "all%ss", cls_name);
-    if (strcmp(name, allClsNames)) {
-        return NO;
-    }
-    
-    return YES;
-}
-
 objc_AssociationPolicy
 property_getAssociationPolicy(objc_property_t property) {
     objc_AssociationPolicy policy;
@@ -319,9 +295,117 @@ enum_getMember(Class cls, const char *name) {
     return member;
 }
 
+#pragma mark - All Members Property
+
 BOOL
-enum_setupAllMembersProperty(objc_property_t property) {
+property_isAllMembersProperty(const char *cls_name, const char *name, const char *type) {
+    // Check the type against the predefined list
+    BOOL typeCheck = NO;
+    for (unsigned int i = 0; i < all_members_types_count; i++) {
+        if (!strcmp(type, all_members_types[i])) {
+            typeCheck = YES;
+            break;
+        }
+    }
+    if (!typeCheck) {
+        return NO;
+    }
+    
+    // Check the name agains the predefined list
+    for (unsigned int i = 0; i < all_members_names_count; i++) {
+        if (!strcmp(name, all_members_names[i])) {
+            return YES;
+        }
+    }
+    
+    // Check for "all[ClassName]s"
+    const size_t size = strlen(cls_name) + 5;
+    char all_cls_names[size];
+    snprintf(all_cls_names, size, "all%ss", cls_name);
+    if (strcmp(name, all_cls_names)) {
+        return NO;
+    }
+    
     return YES;
+}
+
+BOOL
+enum_setupAllMembersProperty(Class cls, objc_property_t property) {
+    const char *getter = property_getName(property);
+    if(!class_addMethod(cls, sel_registerName(getter), (IMP)enum_getAllMembers, "@@:")) {
+        return NO;
+    }
+    
+    const char *type;
+    if(!(type = property_copyAttributeValue(property, "T"))) {
+        return NO;
+    }
+    
+    const size_t size = strlen(type) - 2;
+    char all_members_cls_name[size];
+    snprintf(all_members_cls_name, size, "%s", type + 2);
+    
+    Class all_members_cls;
+    if (!(all_members_cls = objc_getClass(all_members_cls_name))) {
+        return NO;
+    }
+    
+    // Call new
+    Method new;
+    SEL new_sel = sel_registerName("new");
+    if (!(new = class_getClassMethod(all_members_cls, new_sel))) {
+       return NO;
+    }
+
+    id(*new_implementation)(id, SEL);
+    if (!(new_implementation = (typeof(new_implementation))method_getImplementation(new))) {
+        return NO;
+    }
+    
+    id all_members;
+    if (!(all_members = new_implementation((id)all_members_cls, new_sel))) {
+        return NO;
+    }
+    
+    objc_setAssociatedObject((id)cls, all_members_key, all_members, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    return YES;
+}
+
+void
+enum_addToAllMembers(Class _Nonnull cls, id _Nonnull obj) {
+    id all_members;
+    if (!(all_members = objc_getAssociatedObject((id)cls, all_members_key))) {
+        return;
+    }
+    
+    Class all_members_cls;
+    if (!(all_members_cls = object_getClass(all_members))) {
+        return;
+    }
+    
+    // Call add object
+    Method addObject;
+    SEL addObject_sel = sel_registerName("addObject:");
+    if (!(addObject = class_getInstanceMethod(all_members_cls, addObject_sel))) {
+       return;
+    }
+
+    id(*addObject_implementation)(id, SEL, id obj);
+    if (!(addObject_implementation = (typeof(addObject_implementation))method_getImplementation(addObject))) {
+        return;
+    }
+    
+    addObject_implementation(all_members, addObject_sel, obj);
+}
+
+id
+enum_getAllMembers(id self, SEL _cmd) {
+    Class cls = (Class)self;
+    if (!class_isMetaClass(cls) && !(cls = objc_getMetaClass(class_getName(cls)))) {
+        return NULL;
+    }
+    
+    return objc_getAssociatedObject((id)cls, all_members_key);
 }
 
 #pragma mark - Getter/Setter
@@ -332,11 +416,13 @@ enum_get(id self, SEL _cmd) {
     if (!class_isMetaClass(cls) && !(cls = objc_getMetaClass(class_getName(cls)))) {
         return NULL;
     }
+    
     const char *getter = sel_getName(_cmd);
     enum_member_t *member;
     if (!(member = enum_getMember(cls, getter))) {
         return NULL;
     }
+    
     return objc_getAssociatedObject((id)cls, member->key);
 }
 
@@ -357,5 +443,9 @@ enum_set(id self, SEL _cmd, id value) {
     }
         
     objc_setAssociatedObject((id)cls, member->key, value, member->policy);
+    
+    if (value) {
+        enum_addToAllMembers(cls, value);
+    }
 }
 
