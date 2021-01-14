@@ -93,7 +93,7 @@ objc_property_t *properties;
 if((properties = class_copyEnumPropertyList(cls, &count))) {
     for (unsigned int i = 0; i < count; i++) {
         objc_property_t property = properties[i];
-        NSLog(@" *** %s: %@", property_getName(property), class_getEnumValue(cls, property));
+        NSLog(@"%s: %@", property_getName(property), class_getEnumValue(cls, property));
     }
     free(properties);
 }
