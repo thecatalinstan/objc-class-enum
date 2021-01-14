@@ -158,8 +158,6 @@ class_copyEnumPropertyList_Meta(Class cls, unsigned int *outCount, objc_property
     for (unsigned int i = 0; i < property_count; i++) {
         objc_property_t property = properties[i];
         
-        fprintf(stdout, "*** %s: %s\n", property_getName(property), property_getAttributes(property));
-        
         // only allow dynamic properties
         char *dynamic;
         if(!(dynamic = property_copyAttributeValue(property, "D"))) {

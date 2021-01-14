@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A82A99525B046780097BF18 /* ObjcClassEnum.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A82A99325B046780097BF18 /* ObjcClassEnum.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD7ECA79250C172600A30B17 /* classenum.h in Headers */ = {isa = PBXBuildFile; fileRef = AD7ECA77250C172600A30B17 /* classenum.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD7ECA7A250C172600A30B17 /* classenum.c in Sources */ = {isa = PBXBuildFile; fileRef = AD7ECA78250C172600A30B17 /* classenum.c */; settings = {COMPILER_FLAGS = "-fvisibility=hidden"; }; };
 		AD7ECA81250C187700A30B17 /* libobjc.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AD7ECA80250C187700A30B17 /* libobjc.A.dylib */; };
@@ -28,16 +29,26 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4A82A99125B046780097BF18 /* ObjcClassEnum.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ObjcClassEnum.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4A82A99325B046780097BF18 /* ObjcClassEnum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjcClassEnum.h; sourceTree = "<group>"; };
+		4A82A99425B046780097BF18 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AD7ECA70250C16CC00A30B17 /* libObjcClassEnum.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libObjcClassEnum.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD7ECA77250C172600A30B17 /* classenum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = classenum.h; sourceTree = "<group>"; };
 		AD7ECA78250C172600A30B17 /* classenum.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = classenum.c; sourceTree = "<group>"; };
 		AD7ECA80250C187700A30B17 /* libobjc.A.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libobjc.A.dylib; path = ../../../../usr/lib/libobjc.A.dylib; sourceTree = "<group>"; };
 		AD7ECA84250C1B2B00A30B17 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		ADE14A6F250C1FD000061132 /* ObjClassEnumTestApp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ObjClassEnumTestApp; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADE14A6F250C1FD000061132 /* TestApp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TestApp; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADE14A71250C1FD000061132 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4A82A98E25B046780097BF18 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AD7ECA6E250C16CC00A30B17 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -57,12 +68,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A82A99225B046780097BF18 /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				4A82A99325B046780097BF18 /* ObjcClassEnum.h */,
+				4A82A99425B046780097BF18 /* Info.plist */,
+			);
+			path = Framework;
+			sourceTree = "<group>";
+		};
 		AD7ECA67250C16CC00A30B17 = {
 			isa = PBXGroup;
 			children = (
 				AD7ECA7E250C179500A30B17 /* src */,
 				AD7ECA7D250C177D00A30B17 /* include */,
-				ADE14A70250C1FD000061132 /* ObjClassEnumTestApp */,
+				ADE14A70250C1FD000061132 /* TestApp */,
+				4A82A99225B046780097BF18 /* Framework */,
 				AD7ECA71250C16CC00A30B17 /* Products */,
 				AD7ECA7F250C187700A30B17 /* Frameworks */,
 			);
@@ -72,7 +93,8 @@
 			isa = PBXGroup;
 			children = (
 				AD7ECA70250C16CC00A30B17 /* libObjcClassEnum.dylib */,
-				ADE14A6F250C1FD000061132 /* ObjClassEnumTestApp */,
+				ADE14A6F250C1FD000061132 /* TestApp */,
+				4A82A99125B046780097BF18 /* ObjcClassEnum.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -102,17 +124,25 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		ADE14A70250C1FD000061132 /* ObjClassEnumTestApp */ = {
+		ADE14A70250C1FD000061132 /* TestApp */ = {
 			isa = PBXGroup;
 			children = (
 				ADE14A71250C1FD000061132 /* main.m */,
 			);
-			path = ObjClassEnumTestApp;
+			path = TestApp;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		4A82A98C25B046780097BF18 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4A82A99525B046780097BF18 /* ObjcClassEnum.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AD7ECA6C250C16CC00A30B17 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,9 +154,27 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		AD7ECA6F250C16CC00A30B17 /* ObjcClassEnum */ = {
+		4A82A99025B046780097BF18 /* ObjcClassEnum (fmwk) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AD7ECA74250C16CC00A30B17 /* Build configuration list for PBXNativeTarget "ObjcClassEnum" */;
+			buildConfigurationList = 4A82A99625B046780097BF18 /* Build configuration list for PBXNativeTarget "ObjcClassEnum (fmwk)" */;
+			buildPhases = (
+				4A82A98C25B046780097BF18 /* Headers */,
+				4A82A98D25B046780097BF18 /* Sources */,
+				4A82A98E25B046780097BF18 /* Frameworks */,
+				4A82A98F25B046780097BF18 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ObjcClassEnum (fmwk)";
+			productName = "ObjcClassEnum-Framework";
+			productReference = 4A82A99125B046780097BF18 /* ObjcClassEnum.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		AD7ECA6F250C16CC00A30B17 /* ObjcClassEnum (dylib) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD7ECA74250C16CC00A30B17 /* Build configuration list for PBXNativeTarget "ObjcClassEnum (dylib)" */;
 			buildPhases = (
 				AD7ECA6C250C16CC00A30B17 /* Headers */,
 				AD7ECA6D250C16CC00A30B17 /* Sources */,
@@ -136,14 +184,14 @@
 			);
 			dependencies = (
 			);
-			name = ObjcClassEnum;
+			name = "ObjcClassEnum (dylib)";
 			productName = ObjcClassEnum;
 			productReference = AD7ECA70250C16CC00A30B17 /* libObjcClassEnum.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
-		ADE14A6E250C1FD000061132 /* ObjClassEnumTestApp */ = {
+		ADE14A6E250C1FD000061132 /* TestApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = ADE14A73250C1FD000061132 /* Build configuration list for PBXNativeTarget "ObjClassEnumTestApp" */;
+			buildConfigurationList = ADE14A73250C1FD000061132 /* Build configuration list for PBXNativeTarget "TestApp" */;
 			buildPhases = (
 				ADE14A6B250C1FD000061132 /* Sources */,
 				ADE14A6C250C1FD000061132 /* Frameworks */,
@@ -153,9 +201,9 @@
 			);
 			dependencies = (
 			);
-			name = ObjClassEnumTestApp;
+			name = TestApp;
 			productName = ObjClassEnumTestApp;
-			productReference = ADE14A6F250C1FD000061132 /* ObjClassEnumTestApp */;
+			productReference = ADE14A6F250C1FD000061132 /* TestApp */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -167,6 +215,9 @@
 				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Cătălin Stan";
 				TargetAttributes = {
+					4A82A99025B046780097BF18 = {
+						CreatedOnToolsVersion = 12.2;
+					};
 					AD7ECA6F250C16CC00A30B17 = {
 						CreatedOnToolsVersion = 11.5;
 					};
@@ -188,13 +239,31 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AD7ECA6F250C16CC00A30B17 /* ObjcClassEnum */,
-				ADE14A6E250C1FD000061132 /* ObjClassEnumTestApp */,
+				AD7ECA6F250C16CC00A30B17 /* ObjcClassEnum (dylib) */,
+				4A82A99025B046780097BF18 /* ObjcClassEnum (fmwk) */,
+				ADE14A6E250C1FD000061132 /* TestApp */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		4A82A98F25B046780097BF18 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		4A82A98D25B046780097BF18 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AD7ECA6D250C16CC00A30B17 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -215,6 +284,56 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		4A82A99725B046780097BF18 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Framework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.catalinstan.ObjcClassEnum;
+				PRODUCT_NAME = ObjcClassEnum;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		4A82A99825B046780097BF18 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Framework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.catalinstan.ObjcClassEnum;
+				PRODUCT_NAME = ObjcClassEnum;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		AD7ECA72250C16CC00A30B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -333,7 +452,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				EXECUTABLE_PREFIX = lib;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ObjcClassEnum;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -345,7 +464,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				EXECUTABLE_PREFIX = lib;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ObjcClassEnum;
 				SKIP_INSTALL = NO;
 			};
 			name = Release;
@@ -371,6 +490,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4A82A99625B046780097BF18 /* Build configuration list for PBXNativeTarget "ObjcClassEnum (fmwk)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4A82A99725B046780097BF18 /* Debug */,
+				4A82A99825B046780097BF18 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		AD7ECA6B250C16CC00A30B17 /* Build configuration list for PBXProject "ObjcClassEnum" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -380,7 +508,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AD7ECA74250C16CC00A30B17 /* Build configuration list for PBXNativeTarget "ObjcClassEnum" */ = {
+		AD7ECA74250C16CC00A30B17 /* Build configuration list for PBXNativeTarget "ObjcClassEnum (dylib)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AD7ECA75250C16CC00A30B17 /* Debug */,
@@ -389,7 +517,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		ADE14A73250C1FD000061132 /* Build configuration list for PBXNativeTarget "ObjClassEnumTestApp" */ = {
+		ADE14A73250C1FD000061132 /* Build configuration list for PBXNativeTarget "TestApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ADE14A74250C1FD000061132 /* Debug */,

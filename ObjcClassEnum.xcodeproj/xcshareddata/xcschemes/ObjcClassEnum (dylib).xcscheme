@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "AD7ECA6F250C16CC00A30B17"
-               BuildableName = "libObjcClassEnum.dylib"
-               BlueprintName = "ObjcClassEnum"
+               BuildableName = "libObjcClassEnum (dylib).dylib"
+               BlueprintName = "ObjcClassEnum (dylib)"
                ReferencedContainer = "container:ObjcClassEnum.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -40,16 +40,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "ADE14A6E250C1FD000061132"
-            BuildableName = "ObjClassEnumTestApp"
-            BlueprintName = "ObjClassEnumTestApp"
-            ReferencedContainer = "container:ObjcClassEnum.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -57,16 +47,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "ADE14A6E250C1FD000061132"
-            BuildableName = "ObjClassEnumTestApp"
-            BlueprintName = "ObjClassEnumTestApp"
+            BlueprintIdentifier = "AD7ECA6F250C16CC00A30B17"
+            BuildableName = "libObjcClassEnum (dylib).dylib"
+            BlueprintName = "ObjcClassEnum (dylib)"
             ReferencedContainer = "container:ObjcClassEnum.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
