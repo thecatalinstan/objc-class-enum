@@ -57,15 +57,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AD7ECA6F250C16CC00A30B17"
-            BuildableName = "libObjcClassEnum.dylib"
-            BlueprintName = "ObjcClassEnum"
+            BlueprintIdentifier = "ADE14A6E250C1FD000061132"
+            BuildableName = "ObjClassEnumTestApp"
+            BlueprintName = "ObjClassEnumTestApp"
             ReferencedContainer = "container:ObjcClassEnum.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

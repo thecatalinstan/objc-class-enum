@@ -76,9 +76,11 @@ class_createEnum(Class cls) {
     if(!(properties = class_copyEnumPropertyList_Meta(cls, &count, &all_members_property))) {
         return NO;
     }
-    
+        
     if (all_members_property && !enum_setupAllMembersProperty(cls, all_members_property)) {
         free(properties);
+        properties = NULL;
+        
         all_members_property = NULL;
         return NO;
     }
@@ -88,12 +90,14 @@ class_createEnum(Class cls) {
     for (unsigned int i = 0; i < count; i++) {
         objc_property_t property = properties[i];
         
+        char *readonly = property_copyAttributeValue(property, "R");
         enum_member_t member = {
             .property = property,
             .policy = property_getAssociationPolicy(property),
-            .readonly = !!property_copyAttributeValue(property, "R"),
+            .readonly = !!readonly,
             .key = (void *)&(members[i]),
         };
+        free(readonly);
         
         const char *getter = property_getName(member.property);
         if(!class_addMethod(cls, sel_registerName(getter), (IMP)enum_get, "@@:")) {
@@ -116,6 +120,7 @@ class_createEnum(Class cls) {
     class_setEnumLayout(cls, members, count);
     
     free(properties);
+    properties = NULL;
     return YES;
 }
 
@@ -153,15 +158,20 @@ class_copyEnumPropertyList_Meta(Class cls, unsigned int *outCount, objc_property
     for (unsigned int i = 0; i < property_count; i++) {
         objc_property_t property = properties[i];
         
+        fprintf(stdout, "*** %s: %s\n", property_getName(property), property_getAttributes(property));
+        
         // only allow dynamic properties
-        if(!property_copyAttributeValue(property, "D")) {
+        char *dynamic;
+        if(!(dynamic = property_copyAttributeValue(property, "D"))) {
             continue;
         }
+        free(dynamic);
+        dynamic = NULL;
         
         // check the type
-        const char *type;
+        char *type;
         if(!(type = property_copyAttributeValue(property, "T"))) {
-          continue;
+            continue;
         }
         
         if(strcmp(type, cls_type)) {
@@ -169,8 +179,12 @@ class_copyEnumPropertyList_Meta(Class cls, unsigned int *outCount, objc_property
             if (outAllMembersProperty && property_isAllMembersProperty(cls_name, name, type)) {
                 *outAllMembersProperty = property;
             }
+            free(type);
+            type = NULL;
             continue;
         }
+        free(type);
+        type = NULL;
         
         enum_properties[enum_count] = property;
         enum_count++;
@@ -178,7 +192,6 @@ class_copyEnumPropertyList_Meta(Class cls, unsigned int *outCount, objc_property
     }
     
 done:
-    
     if (cls_type) {
         free(cls_type);
         cls_type = NULL;
@@ -196,8 +209,8 @@ done:
     if (enum_count == 0) {
         if (enum_properties) {
             free(enum_properties);
+            enum_properties = NULL;
         }
-        enum_properties = NULL;
     }
        
     if (outCount) {
@@ -232,20 +245,35 @@ class_getEnumValue(Class cls, objc_property_t property) {
 objc_AssociationPolicy
 property_getAssociationPolicy(objc_property_t property) {
     objc_AssociationPolicy policy;
-    if (property_copyAttributeValue(property, "&")) {
-        if (property_copyAttributeValue(property, "N")) {
+    char *reference;
+    if ((reference = property_copyAttributeValue(property, "&"))) {
+        free(reference);
+        reference = NULL;
+
+        char *nonatomic;
+        if ((nonatomic = property_copyAttributeValue(property, "N"))) {
+            free(nonatomic);
+            nonatomic = NULL;
             policy = OBJC_ASSOCIATION_RETAIN_NONATOMIC;
         } else {
             policy = OBJC_ASSOCIATION_RETAIN;
         }
-    } else if (property_copyAttributeValue(property, "C")) {
-        if (property_copyAttributeValue(property, "N")) {
-            policy = OBJC_ASSOCIATION_COPY_NONATOMIC;
-        } else {
-            policy = OBJC_ASSOCIATION_COPY;
-        }
     } else {
-        policy = OBJC_ASSOCIATION_ASSIGN;
+        char *copy;
+        if ((copy = property_copyAttributeValue(property, "C"))) {
+            free(copy);
+            char *nonatomic;
+            if ((nonatomic = property_copyAttributeValue(property, "N"))) {
+                free(nonatomic);
+                nonatomic = NULL;
+                
+                policy = OBJC_ASSOCIATION_COPY_NONATOMIC;
+            } else {
+                policy = OBJC_ASSOCIATION_COPY;
+            }
+        } else {
+            policy = OBJC_ASSOCIATION_ASSIGN;
+        }
     }
     return policy;
 }
@@ -336,7 +364,7 @@ enum_setupAllMembersProperty(Class cls, objc_property_t property) {
         return NO;
     }
     
-    const char *type;
+    char *type;
     if(!(type = property_copyAttributeValue(property, "T"))) {
         return NO;
     }
@@ -344,6 +372,8 @@ enum_setupAllMembersProperty(Class cls, objc_property_t property) {
     const size_t size = strlen(type) - 2;
     char all_members_cls_name[size];
     snprintf(all_members_cls_name, size, "%s", type + 2);
+    free(type);
+    type = NULL;
     
     Class all_members_cls;
     if (!(all_members_cls = objc_getClass(all_members_cls_name))) {

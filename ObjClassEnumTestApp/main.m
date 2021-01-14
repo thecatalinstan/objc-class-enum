@@ -61,9 +61,10 @@ int main(int argc, const char * argv[]) {
         [map setObject:class_getEnumValue(cls, property) ?: NSNull.null
                 forKey:@(property_getName(property))];
     }
+    free(properties);
     
     NSLog(@"%@", map);
     NSLog(@"%@", Color.allValues);
-
+    
     return EXIT_SUCCESS;
 }
