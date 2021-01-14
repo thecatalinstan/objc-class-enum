@@ -6,8 +6,7 @@
 //  Copyright © 2020 Cătălin Stan. All rights reserved.
 //
 
-#include "classenum.h"
-
+#include <objc/runtime.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <libgen.h>
@@ -65,7 +64,7 @@ enum_get(id _Nonnull self, SEL _Nonnull _cmd);
 static void
 enum_set(id _Nonnull self, SEL _Nonnull _cmd, id _Nullable value);
 
-BOOL
+OBJC_EXPORT BOOL
 class_createEnum(Class cls) {
     if (!class_isMetaClass(cls) && !(cls = objc_getMetaClass(class_getName(cls)))) {
         return NO;
@@ -124,7 +123,7 @@ class_createEnum(Class cls) {
     return YES;
 }
 
-objc_property_t *
+OBJC_EXPORT objc_property_t *
 class_copyEnumPropertyList(Class cls, unsigned int *outCount) {
     if (!class_isMetaClass(cls) && !(cls = objc_getMetaClass(class_getName(cls)))) {
         if (outCount) {
@@ -218,7 +217,7 @@ done:
     return enum_properties;
 }
 
-id
+OBJC_EXPORT id
 class_getEnumValue(Class cls, objc_property_t property) {
     if (!class_isMetaClass(cls) && !(cls = objc_getMetaClass(class_getName(cls)))) {
         return NULL;

@@ -16,4 +16,6 @@ FOUNDATION_EXPORT const unsigned char ObjcClassEnum_FrameworkVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <ObjcClassEnum_Framework/PublicHeader.h>
 
+#import <ObjcClassEnum/classenum.h>
+
 

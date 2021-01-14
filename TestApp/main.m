@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #include "classenum.h"
+//#import <ObjcClassEnum/ObjcClassEnum.h>
 
 @interface Color : NSObject
 

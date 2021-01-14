@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "AD7ECA6F250C16CC00A30B17"
-               BuildableName = "libObjcClassEnum (dylib).dylib"
+               BuildableName = "libObjcClassEnum.dylib"
                BlueprintName = "ObjcClassEnum (dylib)"
                ReferencedContainer = "container:ObjcClassEnum.xcodeproj">
             </BuildableReference>
@@ -51,7 +51,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AD7ECA6F250C16CC00A30B17"
-            BuildableName = "libObjcClassEnum (dylib).dylib"
+            BuildableName = "libObjcClassEnum.dylib"
             BlueprintName = "ObjcClassEnum (dylib)"
             ReferencedContainer = "container:ObjcClassEnum.xcodeproj">
          </BuildableReference>
