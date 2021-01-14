@@ -32,7 +32,7 @@ static char * const all_members_names[all_members_names_count] = {"all", "allVal
 static void * const all_members_key = (void *)&all_members_key;
 
 static inline objc_property_t _Nonnull * _Nullable
-class_copyEnumPropertyList_Meta(Class _Nullable cls, unsigned int * _Nullable outCount, objc_property_t * _Nullable outAllMembersProperty);
+class_copyEnumPropertyList_Meta(Class _Nullable cls, unsigned int * _Nullable outCount, objc_property_t * _Nullable * _Nullable outAllMembersProperty);
 
 static inline objc_AssociationPolicy
 property_getAssociationPolicy(objc_property_t _Nonnull property);
@@ -71,12 +71,13 @@ class_createEnum(Class cls) {
     }
     
     unsigned int count = 0;
-    objc_property_t *properties, all_members_property;
+    objc_property_t *all_members_property = NULL;
+    objc_property_t *properties;
     if(!(properties = class_copyEnumPropertyList_Meta(cls, &count, &all_members_property))) {
         return NO;
     }
         
-    if (all_members_property && !enum_setupAllMembersProperty(cls, all_members_property)) {
+    if (all_members_property && !enum_setupAllMembersProperty(cls, *all_members_property)) {
         free(properties);
         properties = NULL;
         
@@ -136,7 +137,7 @@ class_copyEnumPropertyList(Class cls, unsigned int *outCount) {
 }
 
 objc_property_t *
-class_copyEnumPropertyList_Meta(Class cls, unsigned int *outCount, objc_property_t *outAllMembersProperty) {
+class_copyEnumPropertyList_Meta(Class cls, unsigned int *outCount, objc_property_t **outAllMembersProperty) {
     unsigned int property_count = 0, enum_count = 0;
     objc_property_t *properties = NULL, *enum_properties = NULL;
     char *cls_type = NULL;
@@ -177,7 +178,7 @@ class_copyEnumPropertyList_Meta(Class cls, unsigned int *outCount, objc_property
             // Is it an _all memebers` property
             const char *name = property_getName(property);
             if (outAllMembersProperty && property_isAllMembersProperty(cls_name, name, type)) {
-                *outAllMembersProperty = property;
+                *outAllMembersProperty = &property;
             }
             free(type);
             type = NULL;

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                    = "ObjcClassEnum"
-  s.version                 = "1.0.0"
+  s.version                 = "1.0.1"
   s.license                 = "MIT"
   s.summary                 = "Nicer enums for objective-c with class properties."
   s.homepage                = "https://github.com/thecatalinstan/objc-class-enum"

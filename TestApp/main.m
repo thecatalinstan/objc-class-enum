@@ -17,7 +17,7 @@
 @property (class, readonly, nonatomic) Color *blue;
 @property (class, readonly, copy) Color *yellow;
 @property (class, readonly, copy, nonatomic) Color *purple;
-@property (class, readonly) NSHashTable<Color *> *allValues;
+//@property (class, readonly) NSHashTable<Color *> *allValues;
 
 @property (readonly) NSString *rawValue;
 
@@ -35,7 +35,7 @@ static Color *greenColor;
 
 @implementation Color
 
-@dynamic red, green, blue, yellow, purple, allValues;
+@dynamic red, green, blue, yellow, purple;//, allValues;
 
 + (void)initialize {
     assert(class_createEnum(self));
@@ -63,7 +63,7 @@ int main(int argc, const char * argv[]) {
     }
     
     // List all properties that have been set
-    NSLog(@"%@", Color.allValues);
+//    NSLog(@"%@", Color.allValues);
     
     return EXIT_SUCCESS;
 }
