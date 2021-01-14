@@ -17,16 +17,16 @@ This library aims to get rid of that boilerplaye. In order to accomplish that, w
 
 ## Setting up a Class Enum
 
-The `class_createEnum` is the only thig you'll need to use.
-
-```c
-BOOL class_createEnum(Class _Nullable cls);
-```
-
 ```objc
 + (void)initialize {
     assert(class_createEnum(self));
 }
+```
+
+The `class_createEnum` is the only thig you'll need to use.
+
+```c
+BOOL class_createEnum(Class _Nullable cls);
 ```
 
 `class_createEnum` will setup the properties that satisft the following conditions as members of the enum:
@@ -47,16 +47,20 @@ BOOL class_createEnum(Class _Nullable cls);
 
 ## Iterating Memebers
 
+```objc
+@property (class, readonly) NSHashTable<Color *> *allColors;
+```
+
 Additionally, `class_createEnum` will setup an _all members_ property if it encounters a property that satisfies the following conditions:
 
 1. is a `class` property
 2. property is `@dynamic`
 3. property type an instance of the `NSHashTable`
-4. property is called one of the following: `all`, `allMembers`, `allValues`, `all[ClassName]s`
+4. property is called one of the following: `all`, `allMembers`, `allValues`, `all[ClassName]s` (ex. `allColors` for the `Color` class)
 
 ```objc
 @interface Color : NSObject
-@property (class, readonly) NSHashTable<Color *> *allValues;
+@property (class, readonly) NSHashTable<Color *> *allColors;
 @end
 
 @implementation Color
