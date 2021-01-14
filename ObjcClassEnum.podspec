@@ -15,6 +15,6 @@ Pod::Spec.new do |s|
   s.source_files            = "Framework/ObjcClassEnum.h", "include/classenum.h", "src/classenum.c"
   s.public_header_files     = "Framework/ObjcClassEnum.h", "include/classenum.h"
 
-  s.osx.deployment_target   = "10.9"
+  s.osx.deployment_target   = "10.11"
   s.osx.library             = "Objc"
 end

@@ -7,9 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
-#include "classenum.h"
 //#import <ObjcClassEnum/ObjcClassEnum.h>
+#import "classenum.h"
 
 @interface Color : NSObject
 
@@ -48,23 +47,22 @@ static Color *greenColor;
 @end
 
 int main(int argc, const char * argv[]) {
+    // Iterate through enum properties
     Class cls = Color.class;
-    NSMapTable<NSString *, Color *> *map = [NSMapTable weakToWeakObjectsMapTable];
-    
     unsigned int count;
     objc_property_t *properties;
-    if(!(properties = class_copyEnumPropertyList(cls, &count))) {
-        return EXIT_FAILURE;
-    }
-    
-    for (unsigned int i = 0; i < count; i++) {
-        objc_property_t property = properties[i];
-        [map setObject:class_getEnumValue(cls, property) ?: NSNull.null
+    if((properties = class_copyEnumPropertyList(cls, &count))) {
+        NSMapTable<NSString *, Color *> *map = [NSMapTable weakToWeakObjectsMapTable];
+        for (unsigned int i = 0; i < count; i++) {
+            objc_property_t property = properties[i];
+            [map setObject:class_getEnumValue(cls, property) ?: NSNull.null
                 forKey:@(property_getName(property))];
+        }
+        free(properties);
+        NSLog(@"%@", map);
     }
-    free(properties);
     
-    NSLog(@"%@", map);
+    // List all properties that have been set
     NSLog(@"%@", Color.allValues);
     
     return EXIT_SUCCESS;

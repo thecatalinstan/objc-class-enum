@@ -10,9 +10,9 @@
 		4A82A99525B046780097BF18 /* ObjcClassEnum.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A82A99325B046780097BF18 /* ObjcClassEnum.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4A82A9D225B04A790097BF18 /* classenum.c in Sources */ = {isa = PBXBuildFile; fileRef = AD7ECA78250C172600A30B17 /* classenum.c */; };
 		4A82A9D625B04A7E0097BF18 /* classenum.h in Headers */ = {isa = PBXBuildFile; fileRef = AD7ECA77250C172600A30B17 /* classenum.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4A82A9E125B04AD20097BF18 /* libobjc.A.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A82A9E025B04AD20097BF18 /* libobjc.A.tbd */; };
-		4A82A9F125B04B2E0097BF18 /* libobjc.A.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A82A9E025B04AD20097BF18 /* libobjc.A.tbd */; };
-		4A82AA8A25B056690097BF18 /* ObjcClassEnum.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A82A99125B046780097BF18 /* ObjcClassEnum.framework */; };
+		4A82AB1825B07AA90097BF18 /* libobjc.A.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A82AB1725B07AA90097BF18 /* libobjc.A.tbd */; };
+		4A82AB2225B07ACF0097BF18 /* libobjc.A.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A82AB1725B07AA90097BF18 /* libobjc.A.tbd */; };
+		4A82AB3225B07B0E0097BF18 /* libObjcClassEnum.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AD7ECA70250C16CC00A30B17 /* libObjcClassEnum.dylib */; };
 		AD7ECA79250C172600A30B17 /* classenum.h in Headers */ = {isa = PBXBuildFile; fileRef = AD7ECA77250C172600A30B17 /* classenum.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD7ECA7A250C172600A30B17 /* classenum.c in Sources */ = {isa = PBXBuildFile; fileRef = AD7ECA78250C172600A30B17 /* classenum.c */; settings = {COMPILER_FLAGS = "-fvisibility=hidden"; }; };
 		ADE14A72250C1FD000061132 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE14A71250C1FD000061132 /* main.m */; };
@@ -51,7 +51,7 @@
 		4A82A99125B046780097BF18 /* ObjcClassEnum.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ObjcClassEnum.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A82A99325B046780097BF18 /* ObjcClassEnum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjcClassEnum.h; sourceTree = "<group>"; };
 		4A82A99425B046780097BF18 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4A82A9E025B04AD20097BF18 /* libobjc.A.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libobjc.A.tbd; path = usr/lib/libobjc.A.tbd; sourceTree = SDKROOT; };
+		4A82AB1725B07AA90097BF18 /* libobjc.A.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libobjc.A.tbd; path = usr/lib/libobjc.A.tbd; sourceTree = SDKROOT; };
 		AD7ECA70250C16CC00A30B17 /* libObjcClassEnum.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libObjcClassEnum.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD7ECA77250C172600A30B17 /* classenum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = classenum.h; sourceTree = "<group>"; };
 		AD7ECA78250C172600A30B17 /* classenum.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = classenum.c; sourceTree = "<group>"; };
@@ -64,7 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4A82A9E125B04AD20097BF18 /* libobjc.A.tbd in Frameworks */,
+				4A82AB1825B07AA90097BF18 /* libobjc.A.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,7 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4A82A9F125B04B2E0097BF18 /* libobjc.A.tbd in Frameworks */,
+				4A82AB2225B07ACF0097BF18 /* libobjc.A.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,7 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4A82AA8A25B056690097BF18 /* ObjcClassEnum.framework in Frameworks */,
+				4A82AB3225B07B0E0097BF18 /* libObjcClassEnum.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,7 +137,7 @@
 		AD7ECA7F250C187700A30B17 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4A82A9E025B04AD20097BF18 /* libobjc.A.tbd */,
+				4A82AB1725B07AA90097BF18 /* libobjc.A.tbd */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -327,16 +327,7 @@
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Framework/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-					"@loader_path",
-					./,
-				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.catalinstan.ObjcClassEnum;
 				PRODUCT_NAME = ObjcClassEnum;
 				SKIP_INSTALL = YES;
@@ -354,16 +345,7 @@
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Framework/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-					"@loader_path",
-					./,
-				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.catalinstan.ObjcClassEnum;
 				PRODUCT_NAME = ObjcClassEnum;
 				SKIP_INSTALL = NO;
@@ -383,7 +365,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_LINK_OBJC_RUNTIME = NO;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -424,7 +405,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -443,7 +424,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_LINK_OBJC_RUNTIME = NO;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -478,7 +458,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -491,16 +471,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				EXECUTABLE_PREFIX = lib;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-					"@loader_path",
-					./,
-				);
 				PRODUCT_NAME = ObjcClassEnum;
 				SKIP_INSTALL = YES;
 			};
@@ -512,16 +483,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				EXECUTABLE_PREFIX = lib;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-					"@loader_path",
-					./,
-				);
 				PRODUCT_NAME = ObjcClassEnum;
 				SKIP_INSTALL = NO;
 			};

@@ -120,6 +120,7 @@ class_createEnum(Class cls) {
     
     free(properties);
     properties = NULL;
+    members = NULL;
     return YES;
 }
 
@@ -172,6 +173,8 @@ class_copyEnumPropertyList_Meta(Class cls, unsigned int *outCount, objc_property
         }
         
         if(strcmp(type, cls_type)) {
+            // The prop has a different type than the class
+            // Is it an _all memebers` property
             const char *name = property_getName(property);
             if (outAllMembersProperty && property_isAllMembersProperty(cls_name, name, type)) {
                 *outAllMembersProperty = property;
