@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "ObjcClassEnum",
     platforms: [
-        .macOS(.v10_11),
+        .macOS(.v10_11)
     ],
     products: [
         .library(name: "ObjcClassEnum", targets: ["ObjcClassEnum"]),
@@ -16,6 +16,6 @@ let package = Package(
             name: "ObjcClassEnum",
             path: "./",
             publicHeadersPath: "include",
-        ),
+        )
     ]
 )
