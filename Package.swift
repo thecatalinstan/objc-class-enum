@@ -6,16 +6,19 @@ import PackageDescription
 let package = Package(
     name: "ObjcClassEnum",
     platforms: [
-        .macOS(.v10_11)
+        .macOS(.v10_11),
     ],
     products: [
         .library(name: "ObjcClassEnum", targets: ["ObjcClassEnum"]),
     ],
+    dependencies: [],
     targets: [
         .target(
             name: "ObjcClassEnum",
+            dependencies: [],
             path: "./",
-            publicHeadersPath: "include"
-        )
+            publicHeadersPath: "include",
+            cSettings: []
+        ),
     ]
 )
