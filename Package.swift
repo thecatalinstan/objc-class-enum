@@ -21,11 +21,8 @@ let package = Package(
             name: "ObjcClassEnum",
             dependencies: [],
             path: "./",
-            exclude: [ "./TestApp"],
             publicHeadersPath: "include",
-            cSettings: [
-//                .headerSearchPath("Source"),
-            ]
+            cSettings: []
         ),
     ]
 )
