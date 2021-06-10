@@ -15,7 +15,7 @@ let package = Package(
         .target(
             name: "ObjcClassEnum",
             path: "./",
-            publicHeadersPath: "include",
+            publicHeadersPath: "include"
         )
     ]
 )
