@@ -52,6 +52,9 @@
 		4A82A99325B046780097BF18 /* ObjcClassEnum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjcClassEnum.h; sourceTree = "<group>"; };
 		4A82A99425B046780097BF18 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4A82AB1725B07AA90097BF18 /* libobjc.A.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libobjc.A.tbd; path = usr/lib/libobjc.A.tbd; sourceTree = SDKROOT; };
+		AD5064A2267223BE00ABA6D4 /* ObjcClassEnum.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ObjcClassEnum.podspec; sourceTree = "<group>"; };
+		AD5064A3267223BE00ABA6D4 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		AD5064A4267223BE00ABA6D4 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		AD7ECA70250C16CC00A30B17 /* libObjcClassEnum.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libObjcClassEnum.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD7ECA77250C172600A30B17 /* classenum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = classenum.h; sourceTree = "<group>"; };
 		AD7ECA78250C172600A30B17 /* classenum.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = classenum.c; sourceTree = "<group>"; };
@@ -96,13 +99,24 @@
 			path = Framework;
 			sourceTree = "<group>";
 		};
+		AD5064A5267223CB00ABA6D4 /* Packaging */ = {
+			isa = PBXGroup;
+			children = (
+				AD5064A2267223BE00ABA6D4 /* ObjcClassEnum.podspec */,
+				AD5064A4267223BE00ABA6D4 /* Package.swift */,
+				AD5064A3267223BE00ABA6D4 /* README.md */,
+			);
+			name = Packaging;
+			sourceTree = "<group>";
+		};
 		AD7ECA67250C16CC00A30B17 = {
 			isa = PBXGroup;
 			children = (
 				AD7ECA7E250C179500A30B17 /* src */,
 				AD7ECA7D250C177D00A30B17 /* include */,
-				ADE14A70250C1FD000061132 /* TestApp */,
 				4A82A99225B046780097BF18 /* Framework */,
+				ADE14A70250C1FD000061132 /* TestApp */,
+				AD5064A5267223CB00ABA6D4 /* Packaging */,
 				AD7ECA71250C16CC00A30B17 /* Products */,
 				AD7ECA7F250C187700A30B17 /* Frameworks */,
 			);
