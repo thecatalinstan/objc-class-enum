@@ -12,15 +12,13 @@ let package = Package(
         .watchOS(.v2)
     ],
     products: [
-        .library(name: "ObjcClassEnum",
-                 targets: ["ObjcClassEnum"]),
+        .library(name: "ObjcClassEnum", targets: ["ObjcClassEnum"]),
     ],
-    dependencies: [],
     targets: [
         .target(
             name: "ObjcClassEnum",
-            dependencies: [],
             path: "./",
+            exclude: ["./Framework"],
             publicHeadersPath: "include"
         ),
     ]

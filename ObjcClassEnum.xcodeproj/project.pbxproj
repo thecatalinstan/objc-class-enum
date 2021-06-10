@@ -27,7 +27,6 @@
 		AD7ECA70250C16CC00A30B17 /* libObjcClassEnum.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libObjcClassEnum.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD7ECA77250C172600A30B17 /* classenum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = classenum.h; sourceTree = "<group>"; };
 		AD7ECA78250C172600A30B17 /* classenum.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = classenum.c; sourceTree = "<group>"; };
-		ADE14A71250C1FD000061132 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,7 +74,6 @@
 				AD7ECA7E250C179500A30B17 /* src */,
 				AD7ECA7D250C177D00A30B17 /* include */,
 				4A82A99225B046780097BF18 /* Framework */,
-				ADE14A70250C1FD000061132 /* TestApp */,
 				AD5064A5267223CB00ABA6D4 /* Packaging */,
 				AD7ECA71250C16CC00A30B17 /* Products */,
 				AD7ECA7F250C187700A30B17 /* Frameworks */,
@@ -113,14 +111,6 @@
 				4A82AB1725B07AA90097BF18 /* libobjc.A.tbd */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		ADE14A70250C1FD000061132 /* TestApp */ = {
-			isa = PBXGroup;
-			children = (
-				ADE14A71250C1FD000061132 /* main.m */,
-			);
-			path = TestApp;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
