@@ -9,20 +9,13 @@ let package = Package(
         .macOS(.v10_11),
     ],
     products: [
-        .library(name: "ObjcClassEnum",
-                 targets: ["ObjcClassEnum"]),
+        .library(name: "ObjcClassEnum", targets: ["ObjcClassEnum"]),
     ],
-    dependencies: [],
     targets: [
         .target(
             name: "ObjcClassEnum",
-            dependencies: [],
             path: "./",
-            exclude: [ "./TestApp"],
             publicHeadersPath: "include",
-            cSettings: [
-//                .headerSearchPath("Source"),
-            ]
         ),
     ]
 )
