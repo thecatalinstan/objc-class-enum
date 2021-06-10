@@ -21,8 +21,7 @@ let package = Package(
             name: "ObjcClassEnum",
             dependencies: [],
             path: "./",
-            publicHeadersPath: "include",
-            cSettings: []
+            publicHeadersPath: "include"
         ),
     ]
 )
