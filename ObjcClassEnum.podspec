@@ -15,13 +15,13 @@ Pod::Spec.new do |s|
   s.source_files            = "Framework/ObjcClassEnum.h", "include/classenum.h", "src/classenum.c"
   s.public_header_files     = "Framework/ObjcClassEnum.h", "include/classenum.h"
 
-  s.osx.deployment_target   = "10.9"
+  s.osx.deployment_target   = "10.11"
   s.ios.deployment_target   = "9.0"
   s.tvos.deployment_target   = "9.0"
   s.watchos.deployment_target   = "2.0"
   
   s.osx.library             = "Objc"
   s.ios.library             = "Objc"
-  s.tvos.library             = "Objc"
-  s.watchos.library             = "Objc"
+  s.tvos.library            = "Objc"
+  s.watchos.library         = "Objc"
 end
