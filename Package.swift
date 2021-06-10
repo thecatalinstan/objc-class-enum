@@ -6,7 +6,10 @@ import PackageDescription
 let package = Package(
     name: "ObjcClassEnum",
     platforms: [
-        .macOS(.v10_11),
+        .macOS(.v10_9),
+        .iOS(.v9),
+        .tvOS(.v9),
+        .watchOS(.v2)
     ],
     products: [
         .library(name: "ObjcClassEnum",
